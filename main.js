@@ -4,24 +4,24 @@ var ws_module = require('./ws_module');
 var log = '';
 var player1 = ws_module("niv" , 10);
 var player2 = ws_module("braz" , 0);
+var eventConfig = require('./config').events;
 
 
-player1.on('addGoal',function() {
-    log += ("addGoal executed to: " + this.name + 
-        " current goals: " + this.goals + "<br>\n");
-  });
-player1.on('removeGoal',function() {
-    log += ("removeGoal executed to: " + this.name + 
-       " current goals: " + this.goals + "<br>\n");
-  });
-player2.on('addGoal',function() {
-    log += ("addGoal executed to: " + this.name + 
-        " current goals: " + this.goals + "<br>\n");
-  });
-player2.on('removeGoal',function() {
-    log += ("removeGoal executed to: " + this.name + 
-        " current goals: " + this.goals + "<br>\n");
-  });
+function displayGoal(){
+  console.log(`the player ${this.name} current goals are ${this.goals}\n`);
+}
+function logGoal(){
+  log += (`the player ${this.name} current goals are ${this.goals} <br>\n`)
+}
+function checkGoal(){
+  if(this.goals<=0)
+    log += (`the player ${this.name} has no goals to remove! <br>\n`)
+}
+
+player1.on(eventConfig.GOAL, logGoal);
+player1.on(eventConfig.CHECK, checkGoal);
+player2.on(eventConfig.GOAL, logGoal);
+player2.on(eventConfig.CHECK, checkGoal);
 
 player2.removeGoal();
 player1.removeGoal();
