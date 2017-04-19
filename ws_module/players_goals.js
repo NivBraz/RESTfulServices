@@ -1,9 +1,11 @@
 'use strice';
 var events = require('events');
+var eventConfig = require('./config').events;
 
-class Player {
+class Player extends events{
 
     constructor(name,goals){
+        super();
         this.name = name;
         this.goals = goals;
         events.EventEmitter.call(this);
@@ -11,29 +13,22 @@ class Player {
 
     addGoal(){
         this.goals++;
-        this.emit('addGoal');
+        this.emit(eventConfig.GOAL);
         //console.log("Added 1 goal to %s.", this.name);
     }
 
     removeGoal(){
         if(this.goals>0){
             this.goals--;
-            //console.log("Remove 1 goal to %s.", this.name);
+            this.emit(eventConfig.GOAL);
         }
         else
-            console.log("this player (%s) has no goals", this.name);
-        this.emit('removeGoal');
+            this.emit(eventConfig.CHECK);
     }
 
-    getInfo(){
-        return{
-            'name':this.name,
-            'goals':this.goals,
-        };
-    }
 };
 
-Player.prototype.__proto__ = events.EventEmitter.prototype;
+//Player.prototype.__proto__ = events.EventEmitter.prototype;
 
 module.exports = function (name,goals){
     var newPlayer = new Player(name,goals);
