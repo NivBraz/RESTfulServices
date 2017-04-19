@@ -8,18 +8,21 @@ var eventConfig = require('./config').events;
 
 
 function displayGoal(){
-  console.log(`the player ${this.name} current goals are ${this.goals}\n`);
+  console.log(`the player ${this.name} current goals are ${this.goals}`);
 }
 function logGoal(){
-  log += (`the player ${this.name} current goals are ${this.goals} <br>\n`)
+  log += (`the player ${this.name} current goals are ${this.goals} <br>`);
 }
 function checkGoal(){
-  if(this.goals<=0)
-    log += (`the player ${this.name} has no goals to remove! <br>\n`)
+  if(this.goals<=0){
+    log += (`the player ${this.name} has no goals to remove! <br>`);
+    console.log(`the player ${this.name} has no goals to remove!`);
+  }
 }
-
+player1.on(eventConfig.GOAL, displayGoal);
 player1.on(eventConfig.GOAL, logGoal);
 player1.on(eventConfig.CHECK, checkGoal);
+player2.on(eventConfig.GOAL, displayGoal);
 player2.on(eventConfig.GOAL, logGoal);
 player2.on(eventConfig.CHECK, checkGoal);
 
@@ -39,7 +42,7 @@ var server = app.listen(8080, function () {
    var host = server.address().address
    var port = server.address().port
    
-   console.log("Example app listening at http://%s:%s", host, port)
+   console.log("App listening at port:%s", port)
 })
 
 //console.log(log);
