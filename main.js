@@ -14,10 +14,8 @@ function logGoal(){
   log += (`the player ${this.name} current goals are ${this.goals} <br>`);
 }
 function checkGoal(){
-  if(this.goals<=0){
-    log += (`the player ${this.name} has no goals to remove! <br>`);
-    console.log(`the player ${this.name} has no goals to remove!`);
-  }
+  log += (`the player ${this.name} has no goals to remove! <br>`);
+  console.log(`the player ${this.name} has no goals to remove!`);
 }
 player1.on(eventConfig.GOAL, displayGoal);
 player1.on(eventConfig.GOAL, logGoal);
@@ -30,12 +28,30 @@ player2.on(eventConfig.CHECK, checkGoal);
 
 
 app.get('/', function (req, res) {
-   player2.removeGoal();
-   player1.removeGoal();
+   player2.downCheck()
+     .then(() => {
+        player2.removeGoal();
+     })
+     .catch((err) =>{
+        player2.emit(eventConfig.CHECK);
+     });
+   player1.downCheck()
+     .then(() => {
+        player1.removeGoal();
+     })
+     .catch((err) =>{
+        player1.emit(eventConfig.CHECK);
+     });
    player2.addGoal();
    player2.addGoal();
    player1.addGoal();
-   player2.removeGoal();
+   player2.downCheck()
+     .then(() => {
+        player2.removeGoal();
+     })
+     .catch((err) =>{
+        player2.emit(eventConfig.CHECK);
+     });
    res.send(log);
 })
 
