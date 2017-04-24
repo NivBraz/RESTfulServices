@@ -26,15 +26,16 @@ player2.on(eventConfig.GOAL, displayGoal);
 player2.on(eventConfig.GOAL, logGoal);
 player2.on(eventConfig.CHECK, checkGoal);
 
-player2.removeGoal();
-player1.removeGoal();
-player2.addGoal();
-player2.addGoal();
-player1.addGoal();
-player2.removeGoal();
+
 
 
 app.get('/', function (req, res) {
+   player2.removeGoal();
+   player1.removeGoal();
+   player2.addGoal();
+   player2.addGoal();
+   player1.addGoal();
+   player2.removeGoal();
    res.send(log);
 })
 
@@ -43,6 +44,7 @@ var server = app.listen(8080, function () {
    var port = server.address().port
    
    console.log("App listening at port:%s", port)
+
 })
 
 //console.log(log);
