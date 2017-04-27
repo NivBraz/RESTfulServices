@@ -8,7 +8,7 @@ class Player extends events{
         super();
         this.name = name;
         this.goals = goals;
-        events.EventEmitter.call(this);
+        //events.EventEmitter.call(this);
     }
 
     addGoal(){
@@ -16,16 +16,20 @@ class Player extends events{
         this.emit(eventConfig.GOAL);
         //console.log("Added 1 goal to %s.", this.name);
     }
-
-    removeGoal(){
-        if(this.goals>0){
-            this.goals--;
-            this.emit(eventConfig.GOAL);
-        }
-        else
-            this.emit(eventConfig.CHECK);
+    downCheck(){
+        let err = false;
+        return new Promise((resolve,reject) => {
+            if(this.goals==0) err= true;
+            if(err)
+                reject(err);
+            else
+                resolve();
+        });
     }
-
+    removeGoal(){
+        this.goals--;
+        this.emit(eventConfig.GOAL);
+    }
 };
 
 //Player.prototype.__proto__ = events.EventEmitter.prototype;
